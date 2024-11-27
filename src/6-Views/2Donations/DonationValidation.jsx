@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import CustomLoader from '../../2-Components/Modals/CustomLoader'
 
 import DonationFailed from './DonationFailed'
@@ -67,9 +67,9 @@ const DonationValidation = () => {
 
 
 
-  const DisplayContainer = React.useMemo(() => {
-    const renderSwitch = useCallback(({status})=> {
-      let statusLower = status && status !== null || status && status !== undefined? status.toLowerCase() : '';
+  const DisplayContainer = React.memo(({status}) => {
+    const renderSwitch = useCallback((status)=> {
+      let statusLower = status && status !== null || status && status !== undefined ? status.toLowerCase() : '';
       switch (statusLower) {
         case "success":
           return <DonationSuccessful transaction={transaction} />

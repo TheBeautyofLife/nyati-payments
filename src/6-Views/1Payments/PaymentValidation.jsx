@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 import CustomLoader from '../../2-Components/Modals/CustomLoader'
 
 import PaymentFailed from './PaymentFailed'
@@ -67,8 +67,8 @@ const PaymentValidation = () => {
 
 
 
-  const DisplayContainer = React.useMemo(() => {
-    const renderSwitch = useCallback(({status})=> {
+  const DisplayContainer = React.memo(({status}) => {
+    const renderSwitch = useCallback((status)=> {
       let statusLower = status ? status.toLowerCase() : '';
       switch (statusLower) {
         case "success":
@@ -82,10 +82,10 @@ const PaymentValidation = () => {
         default:
           return <PaymentPending errorMessage={errorMessage} />
       }
-    }, [status])
+    }, [status]);
 
     return <div>{renderSwitch(status)}</div>
-  });
+  }, );
 
   return (
     <div className="bg-secondary-800 text-whites-50 min-h-[100vh] w-full flex flex-col items-center justify-center gap-[20px] relative">
