@@ -8,10 +8,11 @@ import { usePurchaseFilm } from "../../5-Store/tanstack/state/mutations";
 
 const ProcessingPay = () => {
   const params = useParams();
+  const [errorMessage, setErrorMessage] = React.useState(null);
   const [searchParams] = useSearchParams();
   const search = qs.parse(searchParams.toString());
   let navigate = useNavigate();
-const usePayMutation = usePurchaseFilm()
+  const usePayMutation = usePurchaseFilm();
   /**
    * Query string
    * token, option, phoneCode, paymentNumber
@@ -31,6 +32,7 @@ const usePayMutation = usePurchaseFilm()
 
 
   const handleSubmitPayment = async () => {
+    setErrorMessage(null);
     let paymentRequestData = {
       userId: params.userId,
       videoId: params.videoId,
@@ -39,17 +41,22 @@ const usePayMutation = usePurchaseFilm()
       paymentNumber: search.paymentNumber
     }
 
-    usePayMutation.mutate(paymentRequestData, {
-      onSuccess: (data) => {
-        console.log("data", data)
-        navigate(`/validate/${data.orderTrackingId}`, { replace: true });
+    // usePayMutation.mutate(paymentRequestData, {
+    //   onSuccess: (data) => {
+    //     console.log("data", data)
+    //     navigate(`/validate/${data.orderTrackingId}`, { replace: true });
 
-      },
-      onError: (error) => {
-        console.log("error", error)
+    //   },
+    //   onError: (error) => {
+    //     console.log("error", error)
+    //     if (error?.message) {
+    //       setErrorMessage(error?.message)
+    //     }
+    //   }
+    // })
 
-      }
-    })
+    navigate(`/validate/hfhdjfhjdf`, { replace: true });
+
   
   }
 
@@ -57,6 +64,12 @@ const usePayMutation = usePurchaseFilm()
     <div className="bg-secondary-800 text-whites-50 min-h-[100vh] w-full flex flex-col items-center justify-center gap-[20px] relative">
  <div className="flex flex-col  items-center text-whites-40 gap-4 max-w-[287px]">
       <div className="flex flex-col items-center gap-4 w-full">
+
+{
+  errorMessage !== null && <p className="text-red-500 text-center font-[Inter-Regular] text-base text-opacity-80  ">
+  {errorMessage}
+</p>
+}
         <Icon
           icon="arcticons:chrono24"
           className=" text-[#FEAF38] flex justify-center items-center w-[40px] h-[40px] border-none border-[0.79px] "

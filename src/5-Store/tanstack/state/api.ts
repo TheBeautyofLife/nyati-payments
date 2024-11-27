@@ -40,8 +40,8 @@ export const postPaymentProcess = async (details: paymentRequest): Promise<payme
 
 export const getPaymentStatus = async (orderId: string): Promise<paymentStatusResponse> => {
     try {
-        const response = await apiRequest.post<paymentStatusResponse>(
-            `/admin/auth/register/${orderId}`,
+        const response = await apiRequest.get<paymentStatusResponse>(
+            `/film/checkpaymentstatus/${orderId}`,
            
           );
            //console.log("response", response.data);
