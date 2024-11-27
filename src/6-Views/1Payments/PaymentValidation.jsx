@@ -21,8 +21,8 @@ const PaymentValidation = () => {
     {/* <PaymentPending/> */}
     {/* <PaymentFailed /> */}
     {/* <PaymentTimedout /> */}
-    {/* <PaymentSuccessful /> */}
-    <ProcessingPay />
+    <PaymentSuccessful />
+    {/* <ProcessingPay /> */}
     </div>
   )
 }
