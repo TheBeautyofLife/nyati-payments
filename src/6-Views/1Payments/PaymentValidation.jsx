@@ -72,7 +72,7 @@ const PaymentValidation = () => {
       let statusLower = status ? status.toLowerCase() : '';
       switch (statusLower) {
         case "success":
-          return <PaymentSuccessful transaction={transaction} />
+          return <PaymentSuccessful transaction={transaction} status={status} />
         case "pending" || null || undefined:
           return <PaymentPending errorMessage={errorMessage} />
         case "failed":

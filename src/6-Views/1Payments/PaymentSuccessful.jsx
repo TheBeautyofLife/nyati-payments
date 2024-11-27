@@ -2,7 +2,24 @@ import React from "react";
 import { Icon } from "@iconify/react";
 import Buttons from "../../2-Components/Buttons/Buttons";
 
-const PaymentSuccessful = (transaction) => {
+
+const PaymentSuccessful = (transaction, status) => {
+
+  const handleClose = () => {
+    window.ReactNativeWebView.postMessage("returntofilm");
+  };
+
+  React.useEffect(() => {
+  setTimeout(() => {
+    if (status === "SUCCESSFUL") {
+      handleClose();
+    }
+    }, 30000);
+
+    return () => {
+      clearTimeout();
+    };
+  }, [status]);
   return (
     <div className="flex flex-col  items-center text-whites-40  max-w-[287px] gap-20">
       <div className="flex flex-col gap-5">
@@ -36,9 +53,9 @@ const PaymentSuccessful = (transaction) => {
         </div>
       </div>
 
-      {/* <div className="w-full relative flex justify-center items-center ">
-        <Buttons className="w-full rounded-full text-whites-50 font-[Roboto-Medium] text-base">Continue</Buttons>
-      </div> */}
+      <div className="w-full relative flex justify-center items-center ">
+        <Buttons onClick={handleClose} className="w-full rounded-full text-whites-50 font-[Roboto-Medium] text-base">Close</Buttons>
+      </div>
     </div>
   )
 }
