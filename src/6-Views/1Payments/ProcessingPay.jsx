@@ -2,13 +2,56 @@ import React from "react";
 import { Icon } from "@iconify/react";
 import CustomLoader from "../../2-Components/Modals/CustomLoader";
 import Buttons from "../../2-Components/Buttons/Buttons";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import qs from "query-string"
+import { usePurchaseFilm } from "../../5-Store/tanstack/state/mutations";
 
 const ProcessingPay = () => {
   const params = useParams();
   const [searchParams] = useSearchParams();
   const search = qs.parse(searchParams.toString());
+  let navigate = useNavigate();
+const usePayMutation = usePurchaseFilm()
+  /**
+   * Query string
+   * token, option, phoneCode, paymentNumber
+   * 
+   * userId, videoId
+   * 
+   */
+  React.useEffect(()=> {
+
+    localStorage.setItem("token", search.token)
+     localStorage.setItem("userId", params.userId)
+     localStorage.setItem("videoId", params.videoId)
+    // localStorage.setItem("phoneCode", search.phoneCode)
+    // localStorage.setItem("paymentNumber", search.paymentNumber)
+    console.log("search", search.token, params.userId, params.videoId)
+  },[search, params.userId, params.videoId]);
+
+
+  const handleSubmitPayment = async () => {
+    let paymentRequestData = {
+      userId: params.userId,
+      videoId: params.videoId,
+      option: search.option,
+      phoneCode: search.phoneCode,
+      paymentNumber: search.paymentNumber
+    }
+
+    usePayMutation.mutate(paymentRequestData, {
+      onSuccess: (data) => {
+        console.log("data", data)
+        navigate(`/validate/${data.orderTrackingId}`, { replace: true });
+
+      },
+      onError: (error) => {
+        console.log("error", error)
+
+      }
+    })
+  
+  }
 
   return (
     <div className="bg-secondary-800 text-whites-50 min-h-[100vh] w-full flex flex-col items-center justify-center gap-[20px] relative">
@@ -43,7 +86,12 @@ const ProcessingPay = () => {
       </div>
 
       <div className="w-full relative flex justify-center items-center mt-10">
-      <Buttons className="w-full rounded-full text-whites-50 font-[Roboto-Medium] text-base">Continue</Buttons>
+      {
+        usePayMutation.isPending ? <CustomLoader /> : (
+          <Buttons disabled={usePayMutation.isPending} onClick={handleSubmitPayment}className="w-full rounded-full text-whites-50 font-[Roboto-Medium] text-base">Continue</Buttons>
+        )
+      }
+     
       </div>
     </div>
 

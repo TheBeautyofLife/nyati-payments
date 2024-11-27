@@ -22,8 +22,8 @@ function App() {
       <BrowserRouter>
         <ScrollToTop> {/* Wrap Routes with ScrollToTop */}
           <Routes >
-            <Route path="/process" element={<ProcessingPay />}  />
-            <Route path="/validate" element={<PaymentValidation />}  />
+            <Route path="/process/:userId/:videoId" element={<ProcessingPay />}  />
+            <Route path="/validate/:orderTrackingId" element={<PaymentValidation />}  />
            
             {/** PAY */}
             <Route path="/pay-response" element={<PaymentResponse />} />
