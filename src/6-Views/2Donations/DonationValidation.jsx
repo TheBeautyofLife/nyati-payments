@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect } from 'react'
 import CustomLoader from '../../2-Components/Modals/CustomLoader'
 
-import PaymentFailed from './PaymentFailed'
-import PaymentTimedout from './PaymentTimedout'
-import PaymentSuccessful from './PaymentSuccessful'
-import PaymentPending from './PaymentPending'
+import DonationFailed from './DonationFailed'
+import DonationTimedout from './DonationTimedout'
+import DonationSuccessful from './DonationSuccessful'
+import DonationPending from './DonationPending'
 
-import { useGetPaymentStatus } from '../../5-Store/tanstack/state/queries'
+import { useGetDonationStatus } from '../../5-Store/tanstack/state/queries'
 
-const PaymentValidation = () => {
+const DonationValidation = () => {
   //const [isLoading, setIsLoading] = useState(false);
   const [orderTrackingId, setOrderTrackingId] = useState('');
   const [checkingStatus, setCheckingStatus] = useState(false);
@@ -16,7 +16,7 @@ const PaymentValidation = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const [transaction, setTransaction] = useState(null);
 
-  const paystatusMutation = useGetPaymentStatus()
+  const paystatusMutation = useGetDonationStatus()
 
   React.useEffect(() => {
     let orderId= localStorage.getItem('orderTrackingId');
@@ -69,18 +69,18 @@ const PaymentValidation = () => {
 
   const DisplayContainer = React.useMemo(() => {
     const renderSwitch = useCallback(({status})=> {
-      let statusLower = status ? status.toLowerCase() : '';
+      let statusLower = status && status !== null || status && status !== undefined? status.toLowerCase() : '';
       switch (statusLower) {
         case "success":
-          return <PaymentSuccessful transaction={transaction} />
+          return <DonationSuccessful transaction={transaction} />
         case "pending" || null || undefined:
-          return <PaymentPending errorMessage={errorMessage} />
+          return <DonationPending errorMessage={errorMessage} />
         case "failed":
-          return <PaymentFailed transaction={transaction} />
+          return <DonationFailed transaction={transaction} />
         case "timedout":
-          return <PaymentTimedout transaction={transaction} />
+          return <DonationTimedout transaction={transaction} />
         default:
-          return <PaymentPending errorMessage={errorMessage} />
+          return <DonationPending errorMessage={errorMessage} />
       }
     }, [status])
 
@@ -90,10 +90,10 @@ const PaymentValidation = () => {
   return (
     <div className="bg-secondary-800 text-whites-50 min-h-[100vh] w-full flex flex-col items-center justify-center gap-[20px] relative">
       
-    {/* <PaymentPending/> */}
-    {/* <PaymentFailed /> */}
-    {/* <PaymentTimedout /> */}
-    {/* <PaymentSuccessful /> */}
+    {/* <DonationPending/> */}
+    {/* <DonationFailed /> */}
+    {/* <DonationTimedout /> */}
+    {/* <DonationSuccessful /> */}
     {/* <ProcessingPay /> */}
 
     {
@@ -103,4 +103,4 @@ const PaymentValidation = () => {
   )
 }
 
-export default PaymentValidation
+export default DonationValidation
