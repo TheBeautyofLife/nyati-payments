@@ -1,0 +1,51 @@
+import React from "react";
+import { Icon } from "@iconify/react";
+import CustomLoader from "../../2-Components/Modals/CustomLoader";
+import Buttons from "../../2-Components/Buttons/Buttons";
+
+const ProcessingPay = () => {
+
+  return (
+    <div className="bg-secondary-800 text-whites-50 min-h-[100vh] w-full flex flex-col items-center justify-center gap-[20px] relative">
+ <div className="flex flex-col  items-center text-whites-40 gap-4 max-w-[287px]">
+      <div className="flex flex-col items-center gap-4 w-full">
+        <Icon
+          icon="arcticons:chrono24"
+          className=" text-[#FEAF38] flex justify-center items-center w-[40px] h-[40px] border-none border-[0.79px] "
+        />
+        <h1 className="text-[#FEAF38] font-[Inter-SemiBold] text-2xl  font-bold text-center lg:text-left">
+          Confirm Details 
+        </h1>
+      </div>
+
+      <div className="flex flex-col gap-6">
+        <p className="text-[#FFFAF6] text-center font-[Inter-Regular] text-base text-opacity-80  ">
+         Please confirm the details Below and continue
+        </p>
+
+        <p className="text-[#FFFAF6] text-center font-[Inter-Regular] text-base text-opacity-80  ">
+          You are making payment for <br/> <span className="text-primary-500">Film title</span>  <br/>
+          <span className="font-[Inter-Bold]">Price:</span> UGX 5000
+        </p>
+
+        <p className="text-[#FFFAF6] text-center font-[Inter-Regular] text-base text-opacity-80 ">
+          If you have any inquiries, reach out to us at:
+        </p>
+
+        <p className="text-[#FFFAF6] text-center font-[Inter-Bold] text-base ">
+          info@nyatimotionpictures.com
+        </p>
+      </div>
+
+      <div className="w-full relative flex justify-center items-center mt-10">
+      <Buttons className="w-full rounded-full text-whites-50 font-[Roboto-Medium] text-base">Continue</Buttons>
+      </div>
+    </div>
+
+
+    </div>
+   
+  );
+};
+
+export default ProcessingPay;

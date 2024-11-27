@@ -13,6 +13,8 @@ import NyatiFlixSoon from "./6-Views/14ComingSoon/NyatiFlixSoon.jsx";
 
 import ErrorPage from "./6-Views/0ErrorPage/ErrorPage.jsx";
 import PaymentValidation from "./6-Views/1Payments/PaymentValidation.jsx";
+import PaymentProcessing from "./2-Components/MobilePayModes/PaymentProcessing.jsx";
+import ProcessingPay from "./6-Views/1Payments/ProcessingPay.jsx";
 
 function App() {
   return (
@@ -20,7 +22,8 @@ function App() {
       <BrowserRouter>
         <ScrollToTop> {/* Wrap Routes with ScrollToTop */}
           <Routes >
-            <Route path="/" element={<PaymentValidation />}  />
+            <Route path="/process" element={<ProcessingPay />}  />
+            <Route path="/validate" element={<PaymentValidation />}  />
            
             {/** PAY */}
             <Route path="/pay-response" element={<PaymentResponse />} />
