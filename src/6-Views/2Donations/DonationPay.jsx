@@ -4,15 +4,15 @@ import CustomLoader from "../../2-Components/Modals/CustomLoader";
 import Buttons from "../../2-Components/Buttons/Buttons";
 import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import qs from "query-string"
-import { usePurchaseFilm } from "../../5-Store/tanstack/state/mutations";
+import { useFilmDonate } from "../../5-Store/tanstack/state/mutations";
 
-const ProcessingPay = () => {
+const DonationPay = () => {
   const params = useParams();
   const [errorMessage, setErrorMessage] = React.useState(null);
   const [searchParams] = useSearchParams();
   const search = qs.parse(searchParams.toString());
   let navigate = useNavigate();
-  const usePayMutation = usePurchaseFilm();
+  const usePayMutation = useFilmDonate();
   /**
    * Query string
    * token, option, phoneCode, paymentNumber
@@ -46,7 +46,7 @@ const ProcessingPay = () => {
       onSuccess: (data) => {
         console.log("data", data)
         localStorage.setItem("orderTrackingId", data?.orderTrackingId)
-        navigate(`/validate/${data.orderTrackingId}`, { replace: true });
+        navigate(`/donate/validate/${data.orderTrackingId}`, { replace: true });
 
       },
       onError: (error) => {
@@ -84,7 +84,7 @@ const ProcessingPay = () => {
         </p>
 
         <p className="text-[#FFFAF6] text-center font-[Inter-Regular] text-base text-opacity-80  ">
-          You are making payment for <br/> <span className="text-primary-500">{search?.filmtitle}</span>  <br/>
+          You are making donation for <br/> <span className="text-primary-500">{search?.filmtitle}</span>  <br/>
           <span className="font-[Inter-Bold]">Price:</span> UGX {search?.price}
         </p>
 
@@ -113,4 +113,4 @@ const ProcessingPay = () => {
   );
 };
 
-export default ProcessingPay;
+export default DonationPay;

@@ -2,7 +2,7 @@ import React from "react";
 import { Icon } from "@iconify/react";
 import CustomLoader from "../../2-Components/Modals/CustomLoader";
 
-const PaymentPending = ({errorMessage}) => {
+const DonationPending = ({errorMessage}) => {
   return (
     <div className="flex flex-col  items-center text-whites-40 gap-4 max-w-[287px]">
     <div className="flex flex-col items-center gap-4 w-full">
@@ -16,17 +16,17 @@ const PaymentPending = ({errorMessage}) => {
         className=" text-[#FEAF38] flex justify-center items-center w-[40px] h-[40px] border-none border-[0.79px] "
       />
       <h1 className="text-[#FEAF38] font-[Inter-SemiBold] text-2xl  font-bold text-center lg:text-left">
-        Payment Pending
+        Donation Pending
       </h1>
     </div>
 
     <div className="flex flex-col gap-6">
       <p className="text-[#FFFAF6] text-center font-[Inter-Regular] text-base text-opacity-80  ">
-        Hang tight We're verifying your transaction for Film title
+        Hang tight We're verifying your transaction for the donation
       </p>
 
       <p className="text-[#FFFAF6] text-center font-[Inter-Regular] text-base text-opacity-80  ">
-        Once the payment is complete, you'll be automatically directed to the
+        Once the donation is complete, you'll be automatically directed to the
         confirmation page.
       </p>
 
@@ -51,4 +51,4 @@ const PaymentPending = ({errorMessage}) => {
   )
 }
 
-export default PaymentPending
+export default DonationPending
