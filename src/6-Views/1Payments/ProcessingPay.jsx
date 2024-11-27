@@ -46,7 +46,7 @@ const ProcessingPay = () => {
       onSuccess: (data) => {
         console.log("data", data)
         localStorage.setItem("orderTrackingId", data?.orderTrackingId)
-        navigate(`/validate/${data.orderTrackingId}`, { replace: true });
+        navigate(`/film/validate/${data.orderTrackingId}`, { replace: true });
 
       },
       onError: (error) => {
