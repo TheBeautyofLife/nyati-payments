@@ -2,8 +2,13 @@ import React from "react";
 import { Icon } from "@iconify/react";
 import CustomLoader from "../../2-Components/Modals/CustomLoader";
 import Buttons from "../../2-Components/Buttons/Buttons";
+import { useParams, useSearchParams } from "react-router-dom";
+//import qs from "query-string"
 
 const ProcessingPay = () => {
+  const params = useParams();
+  const [searchParams] = useSearchParams();
+  //const search = qs.parse(searchParams.toString());
 
   return (
     <div className="bg-secondary-800 text-whites-50 min-h-[100vh] w-full flex flex-col items-center justify-center gap-[20px] relative">
