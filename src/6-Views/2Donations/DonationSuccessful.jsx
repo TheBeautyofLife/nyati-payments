@@ -1,8 +1,7 @@
-import React from "react";
 import { Icon } from "@iconify/react";
+import Buttons from "../../2-Components/Buttons/Buttons";
 
-
-const DonationSuccessful = (transaction) => {
+const DonationSuccessful = () => {
   return (
     <div className="flex flex-col  items-center text-whites-40  max-w-[287px] gap-20">
       <div className="flex flex-col gap-5">
@@ -18,27 +17,34 @@ const DonationSuccessful = (transaction) => {
 
         <div className="flex flex-col gap-6">
           <p className="text-[#FFFAF6] text-center font-[Inter-Regular] text-base text-opacity-80  ">
-          Your donation is confirmed. <br />
-          Thank You <br/>
-                </p>
-
-         
+            Your donation is confirmed. <br />
+            Thank You <br />
+          </p>
 
           <p className="text-[#FFFAF6] text-center font-[Inter-Regular] text-base text-opacity-80  ">
-          If you have any inquiries with this payment contact:
+            If you have any inquiries with this payment contact:
           </p>
 
           <p className="text-[#FFFAF6] text-center font-[Inter-Bold] text-base ">
-          info@nyatimotionpictures.com
-        </p>
+            info@nyatimotionpictures.com
+          </p>
         </div>
       </div>
 
-      {/* <div className="w-full relative flex justify-center items-center ">
-        <Buttons className="w-full rounded-full text-whites-50 font-[Roboto-Medium] text-base">Continue</Buttons>
-      </div> */}
+      <div className="w-full relative flex justify-center items-center ">
+        <Buttons
+          className="w-full rounded-full text-whites-50 font-[Roboto-Medium] text-base"
+          onClick={() => {
+            if (window.ReactNativeWebView) {
+              window.ReactNativeWebView.postMessage("donationclose");
+            }
+          }}
+        >
+          Continue
+        </Buttons>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default DonationSuccessful
+export default DonationSuccessful;

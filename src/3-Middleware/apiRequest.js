@@ -1,8 +1,7 @@
-import { QueryClient } from "@tanstack/react-query";
 import axios from "axios";
 
 const apiRequest = axios.create({
-  baseURL: "https://api.nyatimotionpictures.com/api/v1",
+  baseURL: "http://localhost:4500/api/v1",
   headers: {
     "Content-Type": "application/json",
   },
@@ -16,6 +15,4 @@ apiRequest.interceptors.request.use((config) => {
   return config;
 });
 
-
-
-export default apiRequest
+export default apiRequest;
