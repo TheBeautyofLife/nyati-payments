@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const apiRequest = axios.create({
-  baseURL: "http://localhost:4500/api/v1",
+  baseURL: "https://api.nyatimotionpictures.com/api/v1", //TODO change to api server
   headers: {
     "Content-Type": "application/json",
   },
