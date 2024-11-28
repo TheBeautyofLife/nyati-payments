@@ -2,18 +2,16 @@ import React from "react";
 import { Icon } from "@iconify/react";
 import Buttons from "../../2-Components/Buttons/Buttons";
 
-
-const PaymentSuccessful = (transaction, status) => {
-
+const PaymentSuccessful = (status) => {
   const handleClose = () => {
     window.ReactNativeWebView.postMessage("returntofilm");
   };
 
   React.useEffect(() => {
-  setTimeout(() => {
-    if (status === "SUCCESSFUL") {
-      handleClose();
-    }
+    setTimeout(() => {
+      if (status === "SUCCESSFUL") {
+        handleClose();
+      }
     }, 30000);
 
     return () => {
@@ -35,29 +33,34 @@ const PaymentSuccessful = (transaction, status) => {
 
         <div className="flex flex-col gap-6">
           <p className="text-[#FFFAF6] text-center font-[Inter-Regular] text-base text-opacity-80  ">
-          Your payment is confirmed. <br />
-          Enjoy watching <br/>
-          {" Film Title "}        </p>
-
-          <p className="text-[#FFFAF6] text-center font-[Inter-Regular] text-base text-opacity-80  ">
-          You have { "Rental Duration" } to view the movie.
+            Your payment is confirmed. <br />
+            Enjoy watching <br />
           </p>
 
           <p className="text-[#FFFAF6] text-center font-[Inter-Regular] text-base text-opacity-80  ">
-          If you have any inquiries with this payment contact:
+            You have 72hrs to view the movie.
+          </p>
+
+          <p className="text-[#FFFAF6] text-center font-[Inter-Regular] text-base text-opacity-80  ">
+            If you have any inquiries with this payment contact:
           </p>
 
           <p className="text-[#FFFAF6] text-center font-[Inter-Bold] text-base ">
-          info@nyatimotionpictures.com
-        </p>
+            info@nyatimotionpictures.com
+          </p>
         </div>
       </div>
 
       <div className="w-full relative flex justify-center items-center ">
-        <Buttons onClick={handleClose} className="w-full rounded-full text-whites-50 font-[Roboto-Medium] text-base">Close</Buttons>
+        <Buttons
+          onClick={handleClose}
+          className="w-full rounded-full text-whites-50 font-[Roboto-Medium] text-base"
+        >
+          Close
+        </Buttons>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default PaymentSuccessful
+export default PaymentSuccessful;

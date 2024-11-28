@@ -1,4 +1,3 @@
-import React from "react";
 import { Icon } from "@iconify/react";
 import Buttons from "../../2-Components/Buttons/Buttons";
 
@@ -18,21 +17,31 @@ const PaymentTimedout = () => {
 
         <div className="flex flex-col gap-6">
           <p className="text-[#FFFAF6] text-center font-[Inter-Regular] text-base text-opacity-80  ">
-          It seems your payment didn't go through in time.
+            It seems your payment didn&apos;t go through in time.
           </p>
 
           <p className="text-[#FFFAF6] text-center font-[Inter-Regular] text-base text-opacity-80  ">
-          Please try again to complete your purchase. If the issue persists, feel free to contact us at:
+            Please try again to complete your purchase. If the issue persists,
+            feel free to contact us at:
           </p>
 
           <p className="text-[#FFFAF6] text-center font-[Inter-Bold] text-base ">
-          info@nyatimotionpictures.com
-        </p>
+            info@nyatimotionpictures.com
+          </p>
         </div>
       </div>
 
       <div className="w-full relative flex justify-center items-center ">
-        <Buttons className="w-full rounded-full"> Retry</Buttons>
+        <Buttons
+          className="w-full rounded-full"
+          onClick={() => {
+            if (window.ReactNativeWebView) {
+              window.ReactNativeWebView.postMessage("failedcancel");
+            }
+          }}
+        >
+          Close
+        </Buttons>
       </div>
     </div>
   );

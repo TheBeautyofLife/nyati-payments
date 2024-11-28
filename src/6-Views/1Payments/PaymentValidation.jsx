@@ -1,106 +1,90 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import CustomLoader from '../../2-Components/Modals/CustomLoader'
+import React, { useCallback, useState } from "react";
+// import CustomLoader from "../../2-Components/Modals/CustomLoader";
+import PropTypes from "prop-types";
 
-import PaymentFailed from './PaymentFailed'
-import PaymentTimedout from './PaymentTimedout'
-import PaymentSuccessful from './PaymentSuccessful'
-import PaymentPending from './PaymentPending'
+import PaymentFailed from "./PaymentFailed";
+import PaymentTimedout from "./PaymentTimedout";
+import PaymentSuccessful from "./PaymentSuccessful";
+import PaymentPending from "./PaymentPending";
 
-import { useGetPaymentStatus } from '../../5-Store/tanstack/state/queries'
+// import { useGetPaymentStatus } from "../../5-Store/tanstack/state/queries";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { getPaymentStatus } from "../../5-Store/tanstack/state/api";
+import { queryClient } from "../../lib/tanstack";
 
 const PaymentValidation = () => {
+  const params = useParams();
   //const [isLoading, setIsLoading] = useState(false);
-  const [orderTrackingId, setOrderTrackingId] = useState('');
-  const [checkingStatus, setCheckingStatus] = useState(false);
-  const [status, setStatus] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
-  const [transaction, setTransaction] = useState(null);
+  // const [orderTrackingId, setOrderTrackingId] = useState("");
+  // const [checkingStatus, setCheckingStatus] = useState(false);
+  // const [status, setStatus] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  // const [transaction, setTransaction] = useState(null);
 
-  const paystatusMutation = useGetPaymentStatus()
-
-  React.useEffect(() => {
-    let orderId= localStorage.getItem('orderTrackingId');
-    if(orderId){
-      setOrderTrackingId(orderId);
-      //checkPurchaseStatus({orderTrackingId})
-    }
-  }, [])
-
-  const checkPurchaseStatus = useCallback(({orderTrackingId}) => {
-    setCheckingStatus(true);
-    paystatusMutation.mutate(orderTrackingId, {
-      onSuccess: (data) => {
-        if(data?.status === "SUCCESSFUL" ){
-          setErrorMessage('');
-        setCheckingStatus(false);
-        setStatus(data?.status);
-        setTransaction(data?.transaction);
-        }
-        setErrorMessage('');
-        setStatus(data?.status);
-       
-      },
-      onError: (error) => {
+  const { data } = useQuery({
+    queryKey: ["paymentStatus", params.orderTrackingId],
+    queryFn: () => getPaymentStatus(params.orderTrackingId),
+    enabled: !!params.orderTrackingId,
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    onSettled: (data, error) => {
+      if (error) {
         setErrorMessage(error?.message);
-        setCheckingStatus(false);
-       // setStatus(error?.message);
-      },
-
-    })
-    }
-  );
-
-  useEffect(() => {
-  if(checkingStatus && orderTrackingId){
-    const interval = setInterval(()=>{
-
-      checkPurchaseStatus({
-        orderTrackingId
-      })
-    }, 20000);
-
-    return () => clearInterval(interval)
-  }
-  }, [checkingStatus, checkPurchaseStatus, orderTrackingId]);
-
-
-
-
-
-  const DisplayContainer = React.memo(({status}) => {
-    const renderSwitch = useCallback((status)=> {
-      let statusLower = status ? status.toLowerCase() : '';
-      switch (statusLower) {
-        case "success":
-          return <PaymentSuccessful transaction={transaction} status={status} />
-        case "pending" || null || undefined:
-          return <PaymentPending errorMessage={errorMessage} />
-        case "failed":
-          return <PaymentFailed transaction={transaction} />
-        case "timedout":
-          return <PaymentTimedout transaction={transaction} />
-        default:
-          return <PaymentPending errorMessage={errorMessage} />
+        return;
       }
-    }, [status]);
 
-    return <div>{renderSwitch(status)}</div>
-  }, );
+      if (data?.status === "PENDING") {
+        console.log("data", data);
+        setTimeout(() => {
+          queryClient.refetchQueries("paymentStatus");
+        }, 10000);
+      }
+    },
+  });
 
   return (
     <div className="bg-secondary-800 text-whites-50 min-h-[100vh] w-full flex flex-col items-center justify-center gap-[20px] relative">
-      
-    {/* <PaymentPending/> */}
-    {/* <PaymentFailed /> */}
-    {/* <PaymentTimedout /> */}
-    {/* <PaymentSuccessful /> */}
-    {/* <ProcessingPay /> */}
-
-    {
-      <DisplayContainer status={status} />
-    }
+      <DisplayContainer
+        errorMessage={errorMessage}
+        transaction={data?.transaction}
+        status={data?.status ?? "PENDING"}
+      />
     </div>
-  )
-}
+  );
+};
 
-export default PaymentValidation
+const DisplayContainer = React.memo(({ status, transaction, errorMessage }) => {
+  const renderSwitch = useCallback(
+    (status) => {
+      let statusLower = status ? status.toLowerCase() : "";
+      switch (statusLower) {
+        case "successful":
+          return (
+            <PaymentSuccessful transaction={transaction} status={status} />
+          );
+        case "pending" || null || undefined:
+          return <PaymentPending errorMessage={errorMessage} />;
+        case "failed":
+          return <PaymentFailed />;
+        case "timedout":
+          return <PaymentTimedout />;
+        default:
+          return <PaymentPending errorMessage={errorMessage} />;
+      }
+    },
+    [transaction, errorMessage]
+  );
+
+  return <div>{renderSwitch(status)}</div>;
+});
+
+DisplayContainer.propTypes = {
+  status: PropTypes.string.isRequired,
+  transaction: PropTypes.object,
+  errorMessage: PropTypes.string,
+};
+
+DisplayContainer.displayName = "DisplayContainer";
+
+export default PaymentValidation;
